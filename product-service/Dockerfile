@@ -8,7 +8,7 @@ COPY .mvn .mvn
 COPY mvnw ./
 
 # Pre-fetch dependencies (fast rebuilds)
-RUN ./mvnw -q -DskipTests dependency:go-offline
+RUN chmod +x mvnw && ./mvnw -q -DskipTests dependency:go-offline
 
 # Now copy source (this invalidates cache when code changes)
 COPY src ./src
