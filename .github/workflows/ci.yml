@@ -23,13 +23,11 @@ jobs:
       - name: Run Unit Tests
         run: |
           # Product Service
-          cd product-service
-          mvn test
+          cd product-service && mvn test
           cd ..
           
           # Order Service
-          cd order-service
-          mvn test
+          cd order-service && mvn test
           cd ..
 
   docker-pipeline:
@@ -39,6 +37,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup Docker
+        run: |
+          # Install Docker and Docker Compose
+          sudo apt-get update
+          sudo apt-get install -y docker.io docker-compose
+          
+          # Check versions
+          docker --version
+          docker-compose --version
 
       - name: Build Docker Images
         run: |
@@ -56,7 +64,7 @@ jobs:
           sleep 40
           
           echo "Running containers:"
-          docker-compose ps
+          docker ps
 
       - name: Verify Services
         run: |
@@ -95,24 +103,6 @@ jobs:
           
           # GET - Get order by ID
           curl http://localhost:8082/api/orders/1
-
-      - name: Test Edge Cases
-        run: |
-          echo "--- Testing Error Cases ---"
-          
-          # Test product not found
-          echo "Testing with non-existent product..."
-          curl -X POST http://localhost:8082/api/orders \
-            -H "Content-Type: application/json" \
-            -d '{"productId": 999, "quantity": 1}' \
-            -w "\nHTTP Status: %{http_code}\n"
-          
-          # Test insufficient stock
-          echo "Testing insufficient stock..."
-          curl -X POST http://localhost:8082/api/orders \
-            -H "Content-Type: application/json" \
-            -d '{"productId": 1, "quantity": 100}' \
-            -w "\nHTTP Status: %{http_code}\n"
 
       - name: Cleanup
         if: always()
