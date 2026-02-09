@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "products")
 public class Product {
+    // Auto increment, it is a primary key
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,6 +26,7 @@ public class Product {
         this.quantity = quantity;
     }
 
+    // Getter and setter methods
     public Long getId() {
             return id;
     }

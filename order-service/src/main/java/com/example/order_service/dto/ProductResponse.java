@@ -1,12 +1,18 @@
 package com.example.order_service.dto;
 
-
+// DTO for product service response api
 public class ProductResponse {
+
+    // Product id
     private Long id;
+    // Product name
     private String name;
+    // Unit price
     private Double price;
+    // Available quantity
     private Integer quantity;
 
+    // Getter and setter method
     public Long getId() {
         return id;
     }

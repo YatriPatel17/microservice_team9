@@ -1,10 +1,14 @@
 package com.example.order_service.dto;
 
+// Requests from clients cor creating new orders
 public class OrderRequest {
 
+    // product id is required
     private Long productId;
+    // order quantity is required
     private Integer quantity;
-    private String status; // Optional: if you want to allow status in request
+    // it is optional and default value is "Pending".
+    private String status;
 
     // Getter and setter
     public Long getProductId() {

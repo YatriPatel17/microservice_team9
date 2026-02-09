@@ -13,12 +13,12 @@ public class Order {
     private Double totalPrice;
     private String status;
 
-    //Default constructor
+    // Default constructor
     public Order() {
 
     }
 
-    //Parameterized Constructor
+    // Parameterized Constructor
     public Order(Long productId, Integer quantity, Double totalPrice,  String status) {
         this.productId = productId;
         this.quantity = quantity;
@@ -26,7 +26,7 @@ public class Order {
         this.status = status;
     }
 
-    // Getter and setter
+    // Getter and setter methods
     public Long getId() {
         return id;
     }

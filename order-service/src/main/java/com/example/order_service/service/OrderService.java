@@ -19,28 +19,33 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+    // Calling product service
     @Autowired
     private ProductClient productClient;
 
+    // Getting all orders using list
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
+    // finds order by id
     public Order getOrderById(Long id) {
         Optional<Order> order = orderRepository.findById(id);
+        // if order null it returns null
         return order.orElse(null);
     }
 
+    // Creating new order
     public Order createOrder(OrderRequest orderRequest) {
         try {
             System.out.println("Creating order for productId: " + orderRequest.getProductId());
 
-            // Get product from product service
+            // Get product detail from product service
             ProductResponse product = productClient.getProductById(orderRequest.getProductId());
 
             System.out.println("Product response: " + product);
 
-            // Validation 1: Product not found
+            // checking product is available or not
             if (product == null) {
                 throw new RuntimeException("Product not found with id: " + orderRequest.getProductId());
             }
@@ -49,7 +54,7 @@ public class OrderService {
                     ", Price: " + product.getPrice() +
                     ", Quantity: " + product.getQuantity());
 
-            // Validation 2: Insufficient quantity
+            // Checking product quantity is available
             if (product.getQuantity() < orderRequest.getQuantity()) {
                 throw new RuntimeException(
                         "Insufficient stock. Available: " + product.getQuantity() +
@@ -57,10 +62,10 @@ public class OrderService {
                 );
             }
 
-            // Calculate total price
+            // Calculating total price
             double totalPrice = product.getPrice() * orderRequest.getQuantity();
 
-            // Get status from request, default to "Pending"
+            // set default status
             String status = orderRequest.getStatus();
             if (status == null || status.trim().isEmpty()) {
                 status = "Pending";

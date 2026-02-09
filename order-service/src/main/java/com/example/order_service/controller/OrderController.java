@@ -17,12 +17,14 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    // Getting all orders
     @GetMapping
     public ResponseEntity<List<Order>> getAllOrders() {
         List<Order> orders = orderService.getAllOrders();
         return ResponseEntity.ok(orders);
     }
 
+    // Getting order by id
     @GetMapping("/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
         Order order = orderService.getOrderById(id);
@@ -33,6 +35,7 @@ public class OrderController {
         }
     }
 
+    // Creating order
     @PostMapping
     public ResponseEntity<?> createOrder(@RequestBody OrderRequest orderRequest) {
         try {

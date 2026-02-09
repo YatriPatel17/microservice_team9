@@ -10,20 +10,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/api/products")  // base url for all endpoints
 public class ProductController {
 
+    // Injecting product service dependency
     @Autowired
     private ProductService productService;
 
-    // List all products
+    // Get all products
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts() {
         List<Product> products = productService.getAllProducts();
         return ResponseEntity.ok(products);
     }
 
-    // Get product by ID
+    // Get single product by ID
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         Product product = productService.getProductById(id);
@@ -35,14 +36,14 @@ public class ProductController {
         }
     }
 
-    // Create new product
+    // Create a new product
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         Product createdProduct = productService.createProduct(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
 
-    // Delete product
+    // Delete a product by id
     @DeleteMapping("/{id}")
     public ResponseEntity<Product> deleteProductById(@PathVariable Long id) {
         Product product = productService.getProductById(id);
@@ -50,6 +51,7 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
         else {
+            productService.deleteProduct(id);
             return ResponseEntity.noContent().build();
         }
     }

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    // JpaRepository provides all CRUD operations automatically
+    // Spring data JPA automatically provides CRUD operation
 }
